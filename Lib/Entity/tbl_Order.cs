@@ -12,42 +12,41 @@
 namespace Lib.Entity
 {
 
-using System;
-    using System.Collections.Generic;
-    
-public partial class tbl_Order
-{
+    using System;
 
-    public int OrderId { get; set; }
+    public partial class tbl_Order
+    {
 
-    public string KOTID { get; set; }
+        public int OrderId { get; set; }
 
-    public string OrderNo { get; set; }
+        public string KOTID { get; set; }
 
-    public System.DateTime OrderDate { get; set; }
+        public string OrderNo { get; set; }
 
-    public Nullable<bool> isComplete { get; set; }
+        public System.DateTime OrderDate { get; set; }
 
-    public Nullable<decimal> Discount { get; set; }
+        public Nullable<bool> isComplete { get; set; }
 
-    public Nullable<decimal> Amount { get; set; }
+        public Nullable<decimal> Discount { get; set; }
 
-    public Nullable<int> TblID { get; set; }
+        public Nullable<decimal> Amount { get; set; }
 
-    public Nullable<int> WaiterID { get; set; }
+        public Nullable<int> TblID { get; set; }
 
-    public string OrderType { get; set; }
+        public Nullable<int> WaiterID { get; set; }
 
-    public Nullable<decimal> GST { get; set; }
+        public string OrderType { get; set; }
 
-    public Nullable<int> userID { get; set; }
+        public Nullable<decimal> GST { get; set; }
 
-    public string Cat { get; set; }
+        public Nullable<int> userID { get; set; }
 
-    public string Address { get; set; }
+        public string Cat { get; set; }
 
-    public string ItemDetails { get; set; }
+        public string Address { get; set; }
+        public string ItemDetails { get; set; }
+        public int CompanyID { get; set; }
 
-}
+    }
 
 }

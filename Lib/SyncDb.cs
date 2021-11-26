@@ -91,10 +91,14 @@ namespace Lib
                         {
                             if (j == 0 && (prop.Name.ToLower().Contains("id")))
                             {
-                                sbProp.AppendFormat("ALTER TABLE {0} ADD {1} int primary key identity(1,1) not null", type.Name, prop.Name);
-                                continue;
+                                sbProp.AppendFormat("ALTER TABLE {0} ADD {1} int primary key identity(1,1) not null", type.Name, prop.Name);                               
+                                //  continue;
                             }
-                            sbProp.AppendFormat("ALTER TABLE {0} ADD {1} {2} ", type.Name, prop.Name, GetType(returnType));
+                            else
+                            {
+                                sbProp.AppendFormat("ALTER TABLE [{0}] ADD {1} {2} ", type.Name, prop.Name, GetType(returnType));
+                            }
+
                             SqlCommand command = new SqlCommand(sbProp.ToString(), SqlHelper.DefaultSqlConnection);
                             using (command)
                             {

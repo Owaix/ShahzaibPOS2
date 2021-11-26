@@ -19,7 +19,7 @@ namespace Lib
         {
             CompaniesList = new List<CompaniesModel>();
             CompaniesList.Add(new CompaniesModel { CompanyID = 101, CompanyTitle = "IceSmoke", CompanyAddress = "Shop#A-29,Sahara Arcade,main boulevard,Bahria enclave, Islamabad", CompanyPhone = "0317-0000623" });
-            CompaniesList.Add(new CompaniesModel { CompanyID = 1011, CompanyTitle = "IceSmoke", CompanyAddress = "Shop#A-29,Sahara Arcade,main boulevard,Bahria enclave, Islamabad", CompanyPhone = "0317-0000623" });
+            CompaniesList.Add(new CompaniesModel { CompanyID = 1011, CompanyTitle = "DSADsl kdlsa", CompanyAddress = "Shop#A-29,Sahara Arcade,main boulevard,Bahria enclave, Islamabad", CompanyPhone = "0317-0000623" });
         }
 
         public CompaniesModel GetCompanyID(int CompanyID)

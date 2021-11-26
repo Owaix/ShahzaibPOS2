@@ -101,3 +101,15 @@ G:\POS\Pos\branches\master\Lib\bin\Debug\EntityFramework.SqlServer.xml
 G:\POS\Pos\branches\master\Lib\obj\Debug\Lib.csprojResolveAssemblyReference.cache
 G:\POS\Pos\branches\master\Lib\obj\Debug\Lib.dll
 G:\POS\Pos\branches\master\Lib\obj\Debug\Lib.pdb
+D:\New folder\Pos\branches\master\Lib\bin\Debug\Lib.dll.config
+D:\New folder\Pos\branches\master\Lib\bin\Debug\Lib.dll
+D:\New folder\Pos\branches\master\Lib\bin\Debug\Lib.pdb
+D:\New folder\Pos\branches\master\Lib\bin\Debug\EntityFramework.dll
+D:\New folder\Pos\branches\master\Lib\bin\Debug\EntityFramework.SqlServer.dll
+D:\New folder\Pos\branches\master\Lib\bin\Debug\EntityFramework.xml
+D:\New folder\Pos\branches\master\Lib\bin\Debug\EntityFramework.SqlServer.xml
+D:\New folder\Pos\branches\master\Lib\obj\Debug\Lib.csproj.CoreCompileInputs.cache
+D:\New folder\Pos\branches\master\Lib\obj\Debug\Lib.csproj.CopyComplete
+D:\New folder\Pos\branches\master\Lib\obj\Debug\Lib.dll
+D:\New folder\Pos\branches\master\Lib\obj\Debug\Lib.pdb
+D:\New folder\Pos\branches\master\Lib\obj\Debug\Lib.csprojAssemblyReference.cache

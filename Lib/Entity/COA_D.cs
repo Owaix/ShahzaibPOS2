@@ -12,34 +12,33 @@
 namespace Lib.Entity
 {
 
-using System;
-    using System.Collections.Generic;
-    
-public partial class COA_D
-{
+    using System;
 
-    public int CDID { get; set; }
+    public partial class COA_D
+    {
 
-    public Nullable<int> AC_Code { get; set; }
+        public int CDID { get; set; }
 
-    public Nullable<int> CAC_Code { get; set; }
+        public Nullable<int> AC_Code { get; set; }
 
-    public Nullable<int> PType_ID { get; set; }
+        public Nullable<int> CAC_Code { get; set; }
 
-    public Nullable<int> ZID { get; set; }
+        public Nullable<int> PType_ID { get; set; }
 
-    public string AC_Title { get; set; }
+        public Nullable<int> ZID { get; set; }
 
-    public Nullable<double> DR { get; set; }
+        public string AC_Title { get; set; }
 
-    public Nullable<double> CR { get; set; }
+        public Nullable<double> DR { get; set; }
 
-    public Nullable<double> Qty { get; set; }
+        public Nullable<double> CR { get; set; }
 
-    public Nullable<bool> InActive { get; set; }
+        public Nullable<double> Qty { get; set; }
 
-    public Nullable<int> CompanyID { get; set; }
+        public Nullable<bool> InActive { get; set; }
 
-}
+        public Nullable<int> CompanyID { get; set; }
+
+    }
 
 }

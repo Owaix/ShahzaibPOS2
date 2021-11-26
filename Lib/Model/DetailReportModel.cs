@@ -21,7 +21,7 @@ namespace Lib.Model
         public Decimal Qty { get; set; }
         public Decimal Rate { get; set; }
         public int Rows { get; set; }
-
+        public String CompanyTitle { get; set; }
         public float RowHeight { get; set; }
 
         public string item { get; set; }

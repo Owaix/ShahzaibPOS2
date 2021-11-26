@@ -418,6 +418,7 @@
     </Compile>
     <Compile Include="Model\Barcode.cs" />
     <Compile Include="Model\COA.cs" />
+    <Compile Include="Model\CompanyModel.cs" />
     <Compile Include="Model\ConnectionStrings.cs" />
     <Compile Include="Model\DetailReportModel.cs" />
     <Compile Include="Model\ItemReportModel.cs" />
