@@ -15,68 +15,6 @@ namespace Lib.Reporting
     public class Reports
     {
 
-        public static List<Report_TestReports> TestReports(String labNo, Int32 reportID)
-        {
-            List<Report_TestReports> objList = new List<Report_TestReports>();
-            DataTable dt = ReportsController.TestReports(labNo, reportID);
-            foreach (DataRow row in dt.Rows)
-            {
-                objList.Add(new Report_TestReports(row));
-            }
-            return objList;
-        }
-
-        public static List<Report_TestReports> PatientDetails_Select(String labNo)
-        {
-            List<Report_TestReports> objList = new List<Report_TestReports>();
-            DataTable dt = ReportsController.PatientDetails_Select(labNo);
-            foreach (DataRow row in dt.Rows)
-            {
-                objList.Add(new Report_TestReports(row));
-            }
-            return objList;
-        }
-
-        public static List<Report_TestReports> TestReportByDepartment(String labNo, Int32 labDeptID)
-        {
-            List<Report_TestReports> objList = new List<Report_TestReports>();
-            DataTable dt = ReportsController.TestReport_Depart(labNo, labDeptID);
-            foreach (DataRow row in dt.Rows)
-            {
-                objList.Add(new Report_TestReports(row));
-            }
-            return objList;
-        }
-
-        public static List<Report_TestReports> SpecialChemistryReport(String labNo, Int32 labDeptID)
-        {
-            List<Report_TestReports> objList = new List<Report_TestReports>();
-            DataTable dt = ReportsController.SpecialChemistry_Report(labNo, labDeptID);
-            foreach (DataRow row in dt.Rows)
-            {
-                objList.Add(new Report_TestReports(row));
-            }
-            return objList;
-        }
-
-        public static List<WidalReport> WidalReport_Select(String labNo, Int32 labDeptID)
-        {
-            List<WidalReport> objList = new List<WidalReport>();
-            DataTable dt = ReportsController.WidalReport_Select(labNo, labDeptID);
-            WidalReport report;
-            foreach (DataRow row in dt.Rows)
-            {
-                report = new WidalReport(row);
-                if (report.test5 == 1) { report.test4 = 1; }
-                if (report.test4 == 1) { report.test3 = 1; }
-                if (report.test3 == 1) { report.test2 = 1; }
-                if (report.test2 == 1) { report.test1 = 1; }
-
-                objList.Add(report);
-            }
-            return objList;
-        }
-
         public static List<DetailReportModel> BookingDetailSummary(DateTime dtStart, DateTime dtEnd, String userName, String type)
         {
             List<DetailReportModel> objList = new List<DetailReportModel>();
@@ -88,10 +26,10 @@ namespace Lib.Reporting
             return objList;
         }
 
-        public static List<OrderReportModel> BookingSummary(DateTime dtStart, DateTime dtEnd, String userName, String type)
+        public static List<OrderReportModel> BookingSummary(DateTime dtStart, DateTime dtEnd, String userName, String type , int CompanyID)
         {
             List<OrderReportModel> objList = new List<OrderReportModel>();
-            DataTable dt = ReportsController.BookingSummary(dtStart, dtEnd, userName, type);
+            DataTable dt = ReportsController.BookingSummary(dtStart, dtEnd, userName, type, CompanyID);
             foreach (DataRow row in dt.Rows)
             {
                 objList.Add(new OrderReportModel(row));

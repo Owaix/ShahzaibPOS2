@@ -112,4 +112,3 @@ D:\New folder\Pos\branches\master\Lib\obj\Debug\Lib.csproj.CoreCompileInputs.cac
 D:\New folder\Pos\branches\master\Lib\obj\Debug\Lib.csproj.CopyComplete
 D:\New folder\Pos\branches\master\Lib\obj\Debug\Lib.dll
 D:\New folder\Pos\branches\master\Lib\obj\Debug\Lib.pdb
-D:\New folder\Pos\branches\master\Lib\obj\Debug\Lib.csprojAssemblyReference.cache

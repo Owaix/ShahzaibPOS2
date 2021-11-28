@@ -61,90 +61,16 @@ namespace Lib.Reporting
         private const String Report_TestWisePendingReport = "Report_TestWisePendingReport";
         private const String Report_CategoryandLabWiseTest = "Report_CategoryandLabWiseTest";
 
+      
 
-        public static DataTable TestReports(String labNo, Int32 reportID)
-        {
-            DataTable dt = new DataTable();
-            SqlCommand sqlCmd = new SqlCommand(Report_TestReports, SqlHelper.DefaultSqlConnection);
-            sqlCmd.CommandType = CommandType.StoredProcedure;
-            sqlCmd.Parameters.AddWithValue("@labNo", labNo);
-            sqlCmd.Parameters.AddWithValue("@reportID", reportID);
-            SqlDataAdapter adp = new SqlDataAdapter(sqlCmd);
-            adp.Fill(dt);
-            adp.Dispose();
-            sqlCmd.Dispose();
-            dt.TableName = "Report_TestReports";
-            return dt;
-        }
-
-        public static DataTable PatientDetails_Select(String labNo)
-        {
-            DataTable dt = new DataTable();
-            SqlCommand sqlCmd = new SqlCommand(Select_PatientDetails, SqlHelper.DefaultSqlConnection);
-            sqlCmd.CommandType = CommandType.StoredProcedure;
-            sqlCmd.Parameters.AddWithValue("@labNo", labNo);
-            SqlDataAdapter adp = new SqlDataAdapter(sqlCmd);
-            adp.Fill(dt);
-            adp.Dispose();
-            sqlCmd.Dispose();
-            dt.TableName = "Select_PatientDetails";
-            return dt;
-        }
-
-        public static DataTable TestReport_Depart(String labNo, Int32 labDeptID)
-        {
-            DataTable dt = new DataTable();
-            SqlCommand sqlCmd = new SqlCommand(Report_TestReportByDepartment, SqlHelper.DefaultSqlConnection);
-            sqlCmd.CommandType = CommandType.StoredProcedure;
-            sqlCmd.Parameters.AddWithValue("@labNo", labNo);
-            sqlCmd.Parameters.AddWithValue("@labDeptID", labDeptID);
-            SqlDataAdapter adp = new SqlDataAdapter(sqlCmd);
-            adp.Fill(dt);
-            adp.Dispose();
-            sqlCmd.Dispose();
-            dt.TableName = "Report_TestReportByDepartment";
-            return dt;
-        }
-
-        public static DataTable SpecialChemistry_Report(String labNo, Int32 labDeptID)
-        {
-            DataTable dt = new DataTable();
-            SqlCommand sqlCmd = new SqlCommand(Report_SpecialChemistry, SqlHelper.DefaultSqlConnection);
-            sqlCmd.CommandType = CommandType.StoredProcedure;
-            sqlCmd.Parameters.AddWithValue("@labNo", labNo);
-            sqlCmd.Parameters.AddWithValue("@labDeptID", labDeptID);
-            SqlDataAdapter adp = new SqlDataAdapter(sqlCmd);
-            adp.Fill(dt);
-            adp.Dispose();
-            sqlCmd.Dispose();
-            dt.TableName = "Report_SpecialChemistry";
-            return dt;
-        }
-
-
-        public static DataTable WidalReport_Select(String labNo, Int32 labDeptID)
-        {
-            DataTable dt = new DataTable();
-            SqlCommand sqlCmd = new SqlCommand(Select_WidalReport, SqlHelper.DefaultSqlConnection);
-            sqlCmd.CommandType = CommandType.StoredProcedure;
-            sqlCmd.Parameters.AddWithValue("@labNo", labNo);
-            sqlCmd.Parameters.AddWithValue("@labDeptID", labDeptID);
-            SqlDataAdapter adp = new SqlDataAdapter(sqlCmd);
-            adp.Fill(dt);
-            adp.Dispose();
-            sqlCmd.Dispose();
-            dt.TableName = "Select_WidalReport";
-            return dt;
-        }
-
-        public static DataTable GetItemSummary(int Item, DateTime reportStartDate, DateTime reportEndDate)
+        public static DataTable GetItemSummary(int Item, DateTime reportStartDate, DateTime reportEndDate, int CompanyID)
         {
             var _query = @"Select OrderNo , OrderDate , IName, Items.IID , SUM(Qty) as Qty , SUM(Rate) as Rate from tbl_Order 
               left join tbl_KOT on tbl_KOT.Id = tbl_Order.KOTID 
               left join tbl_OrderDetails on tbl_OrderDetails.OrderId = tbl_Order.OrderId 
               left join Items on Items.IID = tbl_OrderDetails.itemID 
               WHERE ('0' = @Item OR Items.IID LIKE @Item) 
-              AND tbl_Order.OrderDate BETWEEN @reportStartDate AND @reportEndDate 
+              AND tbl_Order.OrderDate BETWEEN @reportStartDate AND @reportEndDate And tbl_Order.CompanyID = @CompanyID
               group by IName , OrderNo , OrderDate ,Items.IID 
               order by OrderNo ";
 
@@ -154,6 +80,7 @@ namespace Lib.Reporting
             sqlCmd.Parameters.AddWithValue("@Item", Item);
             sqlCmd.Parameters.AddWithValue("@reportStartDate", reportStartDate);
             sqlCmd.Parameters.AddWithValue("@reportEndDate", reportEndDate);
+            sqlCmd.Parameters.AddWithValue("@CompanyID", CompanyID);
             SqlDataAdapter adp = new SqlDataAdapter(sqlCmd);
             adp.Fill(dt);
             adp.Dispose();
@@ -172,7 +99,7 @@ namespace Lib.Reporting
             SqlCommand sqlCmd = new SqlCommand(_query, SqlHelper.DefaultSqlConnection);
             sqlCmd.CommandType = CommandType.Text;
             sqlCmd.Parameters.AddWithValue("@companyID", companyID);
-           
+
             SqlDataAdapter adp = new SqlDataAdapter(sqlCmd);
             adp.Fill(dt);
             adp.Dispose();
@@ -180,7 +107,8 @@ namespace Lib.Reporting
             return dt;
         }
 
-        public static DataTable sp_PV_M_Insert(int companyID, DateTime Date ,int AcCode,bool value ) {
+        public static DataTable sp_PV_M_Insert(int companyID, DateTime Date, int AcCode, bool value)
+        {
             string query = @"insert into PV_M (CompID,EDate,AC_Code,isDeleted) values (@CompID,@EDate,@AC_Code,@IsDelete)
 
 	                      SELECT SCOPE_IDENTITY()";
@@ -190,7 +118,7 @@ namespace Lib.Reporting
             sqlCmd.Parameters.AddWithValue("@CompID", companyID);
             sqlCmd.Parameters.AddWithValue("@EDate", Date);
             sqlCmd.Parameters.AddWithValue("@AC_Code", AcCode);
-            sqlCmd.Parameters.AddWithValue("@IsDelete", Convert.ToBoolean( value));
+            sqlCmd.Parameters.AddWithValue("@IsDelete", Convert.ToBoolean(value));
             SqlDataAdapter adp = new SqlDataAdapter(sqlCmd);
             adp.Fill(dt);
             adp.Dispose();
@@ -224,10 +152,9 @@ namespace Lib.Reporting
         }
 
 
-        public static DataTable sp_RV_M_Update(int companyID, DateTime Date, int AcCode , int id)
+        public static DataTable sp_RV_M_Update(int companyID, DateTime Date, int AcCode, int id)
         {
-            string query = @"update RV_M set
-	                         CompID=@CompID,EDate=@EDate,AC_Code =@AC_Code  where RID= @Id";
+            string query = @"update RV_M set CompID=@CompID,EDate=@EDate,AC_Code =@AC_Code  where RID= @Id";
             DataTable dt = new DataTable();
             SqlCommand sqlCmd = new SqlCommand(query, SqlHelper.DefaultSqlConnection);
             sqlCmd.CommandType = CommandType.Text;
@@ -241,13 +168,10 @@ namespace Lib.Reporting
             adp.Dispose();
             sqlCmd.Dispose();
             return dt;
-
-
-
         }
 
 
-        public static DataTable RecivedVoucharIndex(DateTime StartDate , DateTime EndDate)
+        public static DataTable RecivedVoucharIndex(DateTime StartDate, DateTime EndDate , int CompanyID)
         {
             string query = @"select m.*,c.Amt,rvm.AC_Title as customer,d.AC_Title as cashBAnk,c.BalAmt,c.checkDate,c.ChkNo,c.DisAmt,
                              c.InvNo,c.MOP_ID,c.Narr,c.PreAmt,c.SlipNo,c.SRT,c.AC_Code as RV_TransactionCode,c.ID from RV_M as m
@@ -255,22 +179,21 @@ namespace Lib.Reporting
                              inner join COA_D as d on d.AC_Code=c.AC_Code
                              inner join COA_D rvm on rvm.AC_Code=m.AC_Code
                              inner join AspNetUsers Aspuser on Aspuser.AccessFailedCount=m.CompID
-                             where (CAST(m.EDate as Date) >= CAST(@StartDate as Date) and CAST(m.EDate as Date) <= CAST(@EndDate as Date))";
+                             where (CAST(m.EDate as Date) >= CAST(@StartDate as Date) and CAST(m.EDate as Date) <= CAST(@EndDate as Date)) 
+                             AND m.CompID = @CompID";
+
             DataTable dt = new DataTable();
             SqlCommand sqlCmd = new SqlCommand(query, SqlHelper.DefaultSqlConnection);
             sqlCmd.CommandType = CommandType.Text;
             sqlCmd.Parameters.AddWithValue("@StartDate", StartDate);
             sqlCmd.Parameters.AddWithValue("@EndDate", EndDate);
-     
+            sqlCmd.Parameters.AddWithValue("@CompID", CompanyID); 
 
             SqlDataAdapter adp = new SqlDataAdapter(sqlCmd);
             adp.Fill(dt);
             adp.Dispose();
             sqlCmd.Dispose();
             return dt;
-
-
-
         }
 
 
@@ -308,7 +231,7 @@ namespace Lib.Reporting
 
         }
 
-        public static DataTable sp_RV_GL_credit(int TypeCode ,int AC_Code,int AC_Code2,string Narration,Double Debit, Double Credit ,int RID ,DateTime GLDate,int companyID)
+        public static DataTable sp_RV_GL_credit(int TypeCode, int AC_Code, int AC_Code2, string Narration, Double Debit, Double Credit, int RID, DateTime GLDate, int companyID)
         {
             string query = @"insert into GL (TypeCode,AC_Code,AC_Code2,Narration,Debit,Credit,RID,GLDate,CompID) 
                            values(@TypeCode,@AC_Code,@AC_Code2,@Narration,@Debit,@Credit,@RID,@gl,@companyID)
@@ -369,7 +292,7 @@ namespace Lib.Reporting
 
 
         }
-        public static DataTable sp_PV_M_Update( int AC_Code, DateTime GLDate, int companyID, int ID)
+        public static DataTable sp_PV_M_Update(int AC_Code, DateTime GLDate, int companyID, int ID)
         {
             string query = @"update PV_M set
 	                     CompID=@CompID,EDate=@EDate,AC_Code =@AC_Code where RID= @Id";
@@ -393,7 +316,7 @@ namespace Lib.Reporting
 
         }
 
-        public static DataTable sp_PV_D_Update(String Narr,int MOP_ID,int AC_Code,int InvNo ,int ChkNo ,int SlipNo,Double PreAmt,Double Amt,double DisAmt,Double BalAmt ,DateTime checkDate,int id)
+        public static DataTable sp_PV_D_Update(String Narr, int MOP_ID, int AC_Code, int InvNo, int ChkNo, int SlipNo, Double PreAmt, Double Amt, double DisAmt, Double BalAmt, DateTime checkDate, int id)
         {
             string query = @"update PV_D set Narr =@Narr,MOP_ID =@MOP_ID,AC_Code=@AC_Code,InvNo=@InvNo,ChkNo=@ChkNo,SlipNo=@SlipNo,
 	Amt=@Amt,DisAmt=@DisAmt,BalAmt=@BalAmt,checkDate=@checkDate where RID=@RID";
@@ -409,7 +332,7 @@ namespace Lib.Reporting
             sqlCmd.Parameters.AddWithValue("@SlipNo", SlipNo);
 
 
-           
+
             sqlCmd.Parameters.AddWithValue("@Amt", Amt);
             sqlCmd.Parameters.AddWithValue("@DisAmt", DisAmt);
 
@@ -427,7 +350,7 @@ namespace Lib.Reporting
 
         }
 
-        public static DataTable PaymentVoucharIndex(DateTime start ,DateTime End)
+        public static DataTable PaymentVoucharIndex(DateTime start, DateTime End , int CompanyID)
         {
             string query = @"select m.*,c.Amt,rvm.AC_Title as customer,d.AC_Title as cashBAnk,c.BalAmt,c.checkDate,c.ChkNo,c.DisAmt,c.InvNo,c.MOP_ID,c.Narr,c.PreAmt,c.SlipNo,c.SRT,c.AC_Code as RV_TransactionCode,c.ID from PV_M as m
                              inner join PV_D as c on m.RID=c.RID
@@ -435,16 +358,14 @@ namespace Lib.Reporting
                              inner join COA_D rvm on rvm.AC_Code=m.AC_Code
                              inner join AspNetUsers u on u.AccessFailedCount=m.CompID
                              where (CAST(m.EDate as Date) >= CAST(@StartDate as Date) and CAST(m.EDate as Date) <= CAST(@EndDate as Date))
-";
+                             AND m.CompID = @CompID";
             DataTable dt = new DataTable();
             SqlCommand sqlCmd = new SqlCommand(query, SqlHelper.DefaultSqlConnection);
             sqlCmd.CommandType = CommandType.Text;
 
             sqlCmd.Parameters.AddWithValue("@StartDate", start);
             sqlCmd.Parameters.AddWithValue("@EndDate", End);
-          
-
-
+            sqlCmd.Parameters.AddWithValue("@CompID", CompanyID);
 
             SqlDataAdapter adp = new SqlDataAdapter(sqlCmd);
             adp.Fill(dt);
@@ -452,11 +373,9 @@ namespace Lib.Reporting
             sqlCmd.Dispose();
             return dt;
 
-
-
         }
 
-        public static DataTable BookingSummary(DateTime dtStart, DateTime dtEnd, String userName, String type)
+        public static DataTable BookingSummary(DateTime dtStart, DateTime dtEnd, String userName, String type, int CompanyID)
         {
             string query = @"SELECT 
 	                         OrderNo , Amount , OrderDate , OrderType  , KOTID , us.UserName , GST , Discount	
@@ -465,7 +384,7 @@ namespace Lib.Reporting
                              WHERE
                              ('All' = @userName OR us.[UserName] LIKE @userName)
                              AND ('0' = @type OR PR.[KOTID] LIKE @type)
-                             AND PR.OrderDate BETWEEN @reportStartDate AND @reportEndDate";
+                             AND PR.OrderDate BETWEEN @reportStartDate AND @reportEndDate AND PR.CompanyID = @CompanyID";
             DataTable dt = new DataTable();
             SqlCommand sqlCmd = new SqlCommand(query, SqlHelper.DefaultSqlConnection);
             sqlCmd.CommandType = CommandType.Text;
@@ -473,6 +392,7 @@ namespace Lib.Reporting
             sqlCmd.Parameters.AddWithValue("@reportEndDate", dtEnd);
             sqlCmd.Parameters.AddWithValue("@userName", userName);
             sqlCmd.Parameters.AddWithValue("@type", type);
+            sqlCmd.Parameters.AddWithValue("@CompanyID", CompanyID);
             SqlDataAdapter adp = new SqlDataAdapter(sqlCmd);
             adp.Fill(dt);
             adp.Dispose();
@@ -509,18 +429,19 @@ namespace Lib.Reporting
             return dt;
         }
 
-        public static DataTable GetPaidCustomerByMonth(DateTime fromDate, DateTime ToDate)
+        public static DataTable GetPaidCustomerByMonth(DateTime fromDate, DateTime ToDate , int CompanyID)
         {
             var query = @"select c.CusName, SUM(g.Credit) AS [TOTAL AMOUNT],c.AC_Code
               from Customers c left join GL g
               ON c.AC_Code= g.AC_Code
-              where  g.[GLDate]  between @StartDate and @EndDate
+              where  g.[GLDate]  between @StartDate and @EndDate AND c.CompanyID = CompanyID
               GROUP BY c.CusName , c.AC_Code";
             DataTable dt = new DataTable();
             SqlCommand sqlCmd = new SqlCommand(query, SqlHelper.DefaultSqlConnection);
             sqlCmd.CommandType = CommandType.Text;
             sqlCmd.Parameters.AddWithValue("@StartDate", fromDate);
             sqlCmd.Parameters.AddWithValue("@EndDate", ToDate);
+            sqlCmd.Parameters.AddWithValue("@CompanyID", CompanyID);
             SqlDataAdapter adp = new SqlDataAdapter(sqlCmd);
             adp.Fill(dt);
             adp.Dispose();
